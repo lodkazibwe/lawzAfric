@@ -41,13 +41,13 @@ public class StartUp implements ApplicationListener<ApplicationReadyEvent> {
             Event newEvent =eventService.addEvent(event);
             logger.info("adding tickets...");
             List<Ticket> ticketList =new ArrayList<>();
-            ticketList.add(new Ticket(11, "PALU", "Member in Good Standing", "N", 2000,0, 10, "V", 30, newEvent));
-            ticketList.add(new Ticket(12, "MEMBER", "of the Host Bar Tanganyika Law Society", "N", 2000,0, 1000, "V", 25, newEvent));
-            ticketList.add(new Ticket(13, "EXISTING", "Special Endowment Members And Life Member", "N", 2000,0, 2000, "V", 20, newEvent));
-            ticketList.add(new Ticket(14, "SPECIAL", "Endowment Member", "N", 2000,0, 3000, "V", 1000, newEvent));
-            ticketList.add(new Ticket(15, "LIFETIME", "Membership and Admission to AGM & TGA", "N", 2000,0, 4000, "V", 100, newEvent));
-            ticketList.add(new Ticket(16, "NON-MEMBER", "of PALU", "N", 2000,0, 5000, "V", 45, newEvent));
-            ticketList.add(new Ticket(17, "VIRTUAL", "Participating", "N", 2000,0, 6000, "V", 10, newEvent));
+            ticketList.add(new Ticket(11, "PALU", "Member in Good Standing", "N", 2000,0, 10, "V", 300, newEvent));
+            ticketList.add(new Ticket(12, "MEMBER", "of the Host Bar Tanganyika Law Society", "N", 2000,0, 1000, "V", 250, newEvent));
+            ticketList.add(new Ticket(13, "EXISTING", "Special Endowment Members And Life Member", "N", 2000,0, 2000, "V", 200, newEvent));
+            ticketList.add(new Ticket(14, "SPECIAL", "Endowment Member", "N", 2000,0, 3000, "V", 10000, newEvent));
+            ticketList.add(new Ticket(15, "LIFETIME", "Membership and Admission to AGM & TGA", "N", 2000,0, 4000, "V", 1000, newEvent));
+            ticketList.add(new Ticket(16, "NON-MEMBER", "of PALU", "N", 2000,0, 5000, "V", 450, newEvent));
+            ticketList.add(new Ticket(17, "VIRTUAL", "Participating", "N", 2000,0, 6000, "V", 100, newEvent));
            ticketService.addTicket(ticketList);
             logger.info("tickets added...");
         }
