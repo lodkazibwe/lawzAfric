@@ -16,10 +16,6 @@ public class LawyersofafricaApplication extends SpringBootServletInitializer {
         SpringApplication.run(LawyersofafricaApplication.class, args);
     }
 
-    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-        return builder.sources(LawyersofafricaApplication.class);
-    }
     @Bean
     public RestTemplate getRestTemplate(){return new RestTemplate();}
 
