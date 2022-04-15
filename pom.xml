@@ -117,7 +117,7 @@
                 </configuration>
             </plugin>
         </plugins>
-        <finalName>lafrica</finalName>
+        <finalName>la</finalName>
     </build>
 
 </project>
