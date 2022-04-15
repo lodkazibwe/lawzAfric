@@ -12,6 +12,11 @@ import org.springframework.web.client.RestTemplate;
 @EnableScheduling
 public class LawyersofafricaApplication extends SpringBootServletInitializer {
 
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(LawyersofafricaApplication.class);
+    }
+
     public static void main(String[] args) {
         SpringApplication.run(LawyersofafricaApplication.class, args);
     }
