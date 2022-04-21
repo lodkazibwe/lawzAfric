@@ -26,6 +26,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
+
 @Service
 public class SubscriptionServiceImpl implements SubscriptionService {
     @Autowired TicketService ticketService;
@@ -61,9 +63,12 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         serviceDtos.add(serviceDto);
         requestDto.setServices(serviceDtos);
         logger.info("generating and setting transaction");
+        Random rnd = new Random();
+        int number = rnd.nextInt(999999);
+        String ref =String.format("%06d", number);
         TransactionDto transactionDto = new TransactionDto();
         transactionDto.setBackURL("https://lawyersofafrica.glueup.com");
-        transactionDto.setCompanyRef("test1");
+        transactionDto.setCompanyRef(ref);
         transactionDto.setCompanyRefUnique(1);
         transactionDto.setCustomerEmail(ticketInfo.getBuyerEmail());
         transactionDto.setCustomerFirstName(ticketInfo.getFirstName());
