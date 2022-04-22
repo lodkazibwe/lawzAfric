@@ -25,5 +25,5 @@ public class Subscription {
     private Profile profile;
     @ManyToOne
     private Payment payment;
-    private int status;//1=pending, 2=paid
+    private int status;//1=pending, 2=paid, 3=downloaded
 }

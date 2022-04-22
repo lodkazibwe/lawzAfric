@@ -33,13 +33,20 @@ public class UserServiceImpl implements UserService {
         return genNewSysUser(email);
     }
 
+    @Override
+    public SysUser addAdmin(SysUser sysUser) {
+        sysUser.setRoles(setRole("ADMIN"));
+        sysUser.setPassword(passwordEncoder.encode("PALU@2022"));
+        return userDAO.save(sysUser);
+    }
+
     private SysUser genNewSysUser(String userName) {
         SysUser sysUser =new SysUser();
         sysUser.setEmail(userName);
         sysUser.setUserName(userName);
         sysUser.setUserStatus("NEW");
         sysUser.setDateAdded(new Date());
-        sysUser.setRoles(setRole());
+        sysUser.setRoles(setRole("BUYER"));
         sysUser.setPassword(passwordEncoder.encode("SH001"));
         return userDAO.save(sysUser);
     }
@@ -65,9 +72,9 @@ public class UserServiceImpl implements UserService {
         return userDAO.save(sysUser);
     }
 
-    private Set<Role> setRole(){
-        logger.info("adding Role ..."+ "BUYER");
-        Role role = new Role("BUYER");
+    private Set<Role> setRole(String rol){
+        logger.info("adding Role ..."+ rol);
+        Role role = new Role(rol);
         return new HashSet<>(Collections.singletonList(role));
     }
 

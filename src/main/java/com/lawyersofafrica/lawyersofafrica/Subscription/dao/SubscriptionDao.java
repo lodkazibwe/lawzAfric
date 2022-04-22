@@ -14,4 +14,9 @@ public interface SubscriptionDao extends JpaRepository<Subscription, Integer> {
             "s.id,s.subscriptionDate,s.ticketNumber,s.ticket,s.profile,s.payment,s.status) " +
             "FROM Subscription s JOIN s.payment p WHERE p.id=?1")
     List<Subscription> findByPaymentId(int id);
+
+    List<Subscription> findAllByStatusIn(List<Integer> statuses);
+
+    List<Subscription> findByStatus(int status);
+
 }

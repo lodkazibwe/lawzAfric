@@ -8,4 +8,5 @@ public interface PaymentService {
     Payment savePayment(Payment payment);
     Payment getPayment(int paymentId);
     List<Payment> getByStatus(String status);
+    List<Payment> getByStatus(List<String> statuses);
 }

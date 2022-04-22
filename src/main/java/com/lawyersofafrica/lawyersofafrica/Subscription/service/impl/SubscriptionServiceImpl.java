@@ -58,7 +58,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         ServiceDto serviceDto = new ServiceDto();
         serviceDto.setServiceDate(new Date());
         serviceDto.setServiceDescription(ticket.getDetail());
-        serviceDto.setServiceType(5525);
+        serviceDto.setServiceType(5524);
         logger.info("setting service...");
         serviceDtos.add(serviceDto);
         requestDto.setServices(serviceDtos);
@@ -80,7 +80,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         transactionDto.setRedirectURL("https://lawyersofafrica.glueup.com");
         requestDto.setTransaction(transactionDto);
         logger.info("generating and setting company details");
-        requestDto.setCompanyToken("8D3DA73D-9D7F-4E09-96D4-3D44E7A83EA3");
+        requestDto.setCompanyToken("CAAF329A-C8FA-427B-9D34-AE3AF3202E55");
         requestDto.setRequest("createToken");
         ResponseDto responseDto = pdoService.createToken(requestDto);
         if (responseDto.getTransRef() == null & responseDto.getTransToken() == null) {
@@ -157,4 +157,39 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         return subResponse;
     }
 
+    @Override
+    public Subscription getSubscription(int id) {
+        return subscriptionDao.findById(id).orElseThrow(()-> new ResourceNotFoundException("no such payment "+id));
+    }
+
+    @Override
+    public List<Subscription> getAll(int status) {
+        return subscriptionDao.findByStatus(status);
+    }
+
+    @Override
+    public List<Subscription> getAll(List<Integer> statuses) {
+          return subscriptionDao.findAllByStatusIn(statuses);
+    }
+
+    @Override
+    public int markAsDownloaded(List<Integer> subIds) {
+        for(int id:subIds){
+            updateStatus(id, 3);
+        }
+        return 1;
+    }
+
+    @Override
+    public int markAsPaid(List<Integer> subIds) {
+        for(int id:subIds){
+            updateStatus(id, 2);
+        }
+        return 1;
+    }
+    private void updateStatus(int subId, int status){
+        Subscription subscription = getSubscription(subId);
+        subscription.setStatus(status);
+        subscriptionDao.save(subscription);
+    }
 }

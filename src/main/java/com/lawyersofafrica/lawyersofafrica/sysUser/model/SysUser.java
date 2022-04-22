@@ -4,10 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
 
@@ -17,6 +14,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class SysUser {
     @Id
+    @GeneratedValue
     private long userId;
     @Column(unique = true)
     private String userName;
@@ -26,7 +24,8 @@ public class SysUser {
     private String email;
     private String password;
     private String userStatus;
-    @OneToMany
+    @OneToMany(targetEntity = Role.class,cascade= CascadeType.ALL, fetch= FetchType.EAGER)
+    @JoinColumn()
     private Set<Role> roles;
     private String updatedBy;
     private String addedBy;

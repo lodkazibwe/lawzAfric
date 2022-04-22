@@ -16,4 +16,10 @@ public interface SubscriptionService {
     List<Subscription> subscribe(List<Profile> profiles, int ticketId, int paymentId) throws JsonProcessingException;
     SubResponse getToken(TicketInfo ticketInfo, List<Profile> profiles) throws JsonProcessingException;
     void updatePayment();
+    Subscription getSubscription(int id);
+    List<Subscription> getAll(int status);
+    List<Subscription> getAll(List<Integer> statuses);
+    int markAsDownloaded(List<Integer> subIds);
+    int markAsPaid(List<Integer> subIds);
+
 }

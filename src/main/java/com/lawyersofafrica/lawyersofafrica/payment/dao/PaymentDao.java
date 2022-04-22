@@ -11,4 +11,6 @@ public interface PaymentDao extends JpaRepository<Payment,Integer> {
 
     List<Payment> findByPaymentStatus(String status);
 
+    List<Payment> findAllByPaymentStatusIn(List<String> statuses);
+
 }

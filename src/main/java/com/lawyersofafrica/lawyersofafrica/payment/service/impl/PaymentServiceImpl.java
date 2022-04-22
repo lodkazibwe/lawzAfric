@@ -98,4 +98,9 @@ public class PaymentServiceImpl implements PaymentService {
             savePayment(payment);
         }
     }
+
+    @Override
+    public List<Payment> getByStatus(List<String> statuses) {
+        return paymentDao.findAllByPaymentStatusIn(statuses);
+    }
 }

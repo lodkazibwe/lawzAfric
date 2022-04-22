@@ -2,6 +2,8 @@ package com.lawyersofafrica.lawyersofafrica.profile.service.impl;
 
 import com.lawyersofafrica.lawyersofafrica.event.model.Event;
 import com.lawyersofafrica.lawyersofafrica.event.service.EventService;
+import com.lawyersofafrica.lawyersofafrica.sysUser.model.SysUser;
+import com.lawyersofafrica.lawyersofafrica.sysUser.service.UserService;
 import com.lawyersofafrica.lawyersofafrica.ticket.model.Ticket;
 import com.lawyersofafrica.lawyersofafrica.ticket.service.TicketService;
 import org.slf4j.Logger;
@@ -19,6 +21,7 @@ import java.util.List;
 public class StartUp implements ApplicationListener<ApplicationReadyEvent> {
     @Autowired TicketService ticketService;
     @Autowired EventService eventService;
+    @Autowired UserService userService;
 
     private final Logger logger = LoggerFactory.getLogger(StartUp.class);
     @Override
@@ -27,6 +30,16 @@ public class StartUp implements ApplicationListener<ApplicationReadyEvent> {
         logger.info("checking event...");
         boolean bool =eventService.existsByKey("PALUA");
         if(bool){
+            SysUser sysUser =new SysUser();
+            sysUser.setDateAdded(new Date());
+            sysUser.setEmail("secretariat@lawyersofafrica.org");
+            sysUser.setUserName("Admin");
+            sysUser.setUserStatus("Active");
+            sysUser.setAddedBy("sys");
+            sysUser.setContact("255685078794");
+            sysUser.setDateUpdated(new Date());
+            sysUser.setUpdatedBy("sys");
+            userService.addAdmin(sysUser);
             logger.info("system already initiated...");
         }else{
             logger.info("adding event...");
