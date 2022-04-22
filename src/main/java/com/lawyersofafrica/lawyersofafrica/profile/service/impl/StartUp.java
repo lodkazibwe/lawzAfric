@@ -30,6 +30,8 @@ public class StartUp implements ApplicationListener<ApplicationReadyEvent> {
         logger.info("checking event...");
         boolean bool =eventService.existsByKey("PALUA");
         if(bool){
+            logger.info("system already initiated...");
+        }else{
             SysUser sysUser =new SysUser();
             sysUser.setDateAdded(new Date());
             sysUser.setEmail("secretariat@lawyersofafrica.org");
@@ -40,8 +42,7 @@ public class StartUp implements ApplicationListener<ApplicationReadyEvent> {
             sysUser.setDateUpdated(new Date());
             sysUser.setUpdatedBy("sys");
             userService.addAdmin(sysUser);
-            logger.info("system already initiated...");
-        }else{
+            
             logger.info("adding event...");
             Event event =new Event();
             event.setStartDate(new Date());
