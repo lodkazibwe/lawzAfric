@@ -45,6 +45,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/userData/all/**").permitAll()
                 .antMatchers("/pdo/**").permitAll()
                 .antMatchers("/subscription/**").permitAll()
+                .antMatchers("/pay/**").hasRole("ADMIN")
+                .antMatchers("/sub/**").hasRole("ADMIN")
                 .antMatchers("/userData/admin/**").hasRole("ADMIN")
                                 .antMatchers(
                         HttpMethod.GET,
