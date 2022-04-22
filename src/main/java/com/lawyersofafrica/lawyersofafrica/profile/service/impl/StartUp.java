@@ -42,7 +42,7 @@ public class StartUp implements ApplicationListener<ApplicationReadyEvent> {
             sysUser.setDateUpdated(new Date());
             sysUser.setUpdatedBy("sys");
             userService.addAdmin(sysUser);
-            
+
             logger.info("adding event...");
             Event event =new Event();
             event.setStartDate(new Date());

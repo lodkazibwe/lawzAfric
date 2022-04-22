@@ -5,7 +5,6 @@ import com.lawyersofafrica.lawyersofafrica.Subscription.dto.SubRequest;
 import com.lawyersofafrica.lawyersofafrica.Subscription.dto.SubResponse;
 import com.lawyersofafrica.lawyersofafrica.Subscription.model.Subscription;
 import com.lawyersofafrica.lawyersofafrica.Subscription.service.SubscriptionService;
-import com.lawyersofafrica.lawyersofafrica.payment.model.Payment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
