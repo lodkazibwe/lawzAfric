@@ -207,6 +207,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         subscriptionDao.save(subscription);
     }
 
+    @Transactional
     @Override
     public Subscription oldSub(int payId) {
         Payment payment =paymentService.getPayment(payId);
@@ -229,7 +230,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         subscription.setTicketNumber(15);
         subscription.setTicket(ticketService.getTicket("VIRTUAL"));
         subscription.setPayment(payment);
-        subscription.setProfile(profile);
+        subscription.setProfile(profileDao.save(profile));
         return subscriptionDao.save(subscription);
     }
 }
