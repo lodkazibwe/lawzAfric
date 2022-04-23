@@ -35,7 +35,7 @@ public class AdminController {
         return new ResponseEntity<>(subscriptionService.getAll(statuses), HttpStatus.OK);
     }
 
-    @PostMapping("/getToken")
+    @PostMapping("/old/{payId}")
     public ResponseEntity<Subscription> processToken(@PathVariable int payId){
         return new ResponseEntity<>(subscriptionService.oldSub(payId), HttpStatus.OK);
     }
