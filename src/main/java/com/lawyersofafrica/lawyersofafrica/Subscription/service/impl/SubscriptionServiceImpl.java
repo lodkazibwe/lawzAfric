@@ -207,11 +207,4 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         subscriptionDao.save(subscription);
     }
 
-    @Transactional
-    @Override
-    public Subscription oldSub(int payId) {
-       Subscription subscription =subscriptionDao.getById(111);
-        subscription.setStatus(2);
-        return subscriptionDao.save(subscription);
-    }
 }

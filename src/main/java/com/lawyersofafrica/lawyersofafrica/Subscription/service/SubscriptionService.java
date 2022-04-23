@@ -23,6 +23,5 @@ public interface SubscriptionService {
     List<Subscription> getAll(List<Integer> statuses);
     int markAsDownloaded(List<Integer> subIds);
     int markAsPaid(List<Integer> subIds);
-    Subscription oldSub(int payId);
 
 }

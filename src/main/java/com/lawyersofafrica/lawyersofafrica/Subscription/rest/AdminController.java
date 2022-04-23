@@ -35,11 +35,6 @@ public class AdminController {
         return new ResponseEntity<>(subscriptionService.getAll(statuses), HttpStatus.OK);
     }
 
-    @PostMapping("/old/{payId}")
-    public ResponseEntity<Subscription> processToken(@PathVariable int payId){
-        return new ResponseEntity<>(subscriptionService.oldSub(payId), HttpStatus.OK);
-    }
-
     /*@PutMapping("/paid")
     public ResponseEntity<Integer> markAsPaid(@RequestBody List<Integer> subIds){
         return new ResponseEntity<>(subscriptionService.markAsPaid(subIds), HttpStatus.OK);
