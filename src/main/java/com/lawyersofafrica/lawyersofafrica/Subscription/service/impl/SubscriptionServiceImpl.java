@@ -14,6 +14,7 @@ import com.lawyersofafrica.lawyersofafrica.payment.dto.TransactionDto;
 import com.lawyersofafrica.lawyersofafrica.payment.model.Payment;
 import com.lawyersofafrica.lawyersofafrica.payment.service.PaymentService;
 import com.lawyersofafrica.lawyersofafrica.payment.service.PdoService;
+import com.lawyersofafrica.lawyersofafrica.profile.dao.ProfileDao;
 import com.lawyersofafrica.lawyersofafrica.profile.model.Profile;
 import com.lawyersofafrica.lawyersofafrica.ticket.model.Ticket;
 import com.lawyersofafrica.lawyersofafrica.ticket.service.TicketService;
@@ -34,6 +35,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     @Autowired PdoService pdoService;
     @Autowired SubscriptionDao subscriptionDao;
     @Autowired PaymentService paymentService;
+    @Autowired ProfileDao profileDao;
     private final Logger logger= LoggerFactory.getLogger(SubscriptionServiceImpl.class);
 
     @Override
@@ -65,7 +67,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         logger.info("generating and setting transaction");
         Random rnd = new Random();
         int number = rnd.nextInt(999999);
-        String ref =String.format("%06d", number);
+        String ref ="PALU"+String.format("%06d", number);
         TransactionDto transactionDto = new TransactionDto();
         transactionDto.setBackURL("https://lawyersofafrica.glueup.com");
         transactionDto.setCompanyRef(ref);
@@ -92,11 +94,12 @@ public class SubscriptionServiceImpl implements SubscriptionService {
                         logger.info("retrying failed");
                       throw new ResourceNotFoundException(responseDto.getResultExplanation() + "result "+responseDto.getResult());
                    }
-            Payment payment =generatePayment(responseDto, amount, transactionDto.getCustomerEmail(), transactionDto.getCustomerPhone());
+            Payment payment =generatePayment(responseDto, amount, transactionDto.getCustomerEmail()
+                    , transactionDto.getCustomerPhone(), transactionDto.getCompanyRef());
             logger.info("saving payment");
         Payment myPayment=paymentService.savePayment(payment);
         SubResponse subResponse =new SubResponse();
-        subResponse.setPaymentId(myPayment.getId());
+        subResponse.setPayment(myPayment);
         subResponse.setTicketId(ticket.getId());
         subResponse.setTransToken(responseDto.getTransToken());
         return subResponse;
@@ -104,13 +107,13 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
     @Transactional
     @Override
-    public List<Subscription> subscribe(List<Profile> profiles, int ticketId, int paymentId) {
-        Payment payment=paymentService.getPayment(paymentId);
+    public List<Subscription> subscribe(List<Profile> profiles, int ticketId, Payment payment) {
         Ticket ticket =ticketService.getTicket(ticketId);
         int ticketNo =ticket.getCurrentTicketNumber();
         List<Subscription> subscriptions =new ArrayList<>();
-        logger.info("save subscriptions");
-        for(Profile profile: profiles){
+        logger.info("saving subscriptions");
+        for(Profile profileDto: profiles){
+            Profile profile =generateProfile(profileDto);
             Subscription subscription =new Subscription();
             subscription.setPayment(payment);
             subscription.setProfile(profile);
@@ -119,11 +122,16 @@ public class SubscriptionServiceImpl implements SubscriptionService {
             subscription.setTicket(ticket);
             subscription.setTicketNumber(ticketNo);
             ticketNo+=1;
+            subscriptions.add(subscription);
+
         }
         logger.info("updating  current ticket number");
         ticketService.updateTicketNumber(ticket.getId(), ticketNo);
         logger.info("saving subscriptions");
         return addSubscription(subscriptions);
+    }
+    private Profile generateProfile(Profile profileDto){
+        return profileDao.save(profileDto);
     }
 
         @Override
@@ -131,12 +139,12 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
     }
 
-    private Payment generatePayment(ResponseDto responseDto, double amount, String email, String phone){
+    private Payment generatePayment(ResponseDto responseDto, double amount, String email, String phone, String ref){
         logger.info("generate payment");
         Payment payment = new Payment();
         payment.setCustomerEmail(email);
         payment.setCustomerPhone(phone);
-        payment.setInternalReference("to be generated");
+        payment.setInternalReference(ref);
         payment.setPaymentAmount(amount);
         payment.setPaymentCurrency("USD");
         payment.setPaymentStatus("Pending");
@@ -148,12 +156,13 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         return payment;
     }
 
+
     @Override
     public SubResponse getToken(TicketInfo ticketInfo, List<Profile> profiles) throws JsonProcessingException {
         logger.info("generate Token");
         SubResponse subResponse =creatPaymentToken(ticketInfo);
         logger.info("save subscriptions");
-        subscribe(profiles, subResponse.getTicketId(), subResponse.getPaymentId());
+        subscribe(profiles, subResponse.getTicketId(), subResponse.getPayment());
         return subResponse;
     }
 
@@ -196,5 +205,31 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         Subscription subscription = getSubscription(subId);
         subscription.setStatus(status);
         subscriptionDao.save(subscription);
+    }
+
+    @Override
+    public Subscription oldSub(int payId) {
+        Payment payment =paymentService.getPayment(payId);
+        Profile profile= new Profile();
+        profile.setCity(payment.getVerifyResponse().getCustomerCity());
+        profile.setPosition("");
+        profile.setLanguage("");
+        profile.setGender("MALE");
+        profile.setCountry(payment.getVerifyResponse().getCustomerCountry());
+        profile.setCompany("");
+        profile.setBarAssociation("");
+        profile.setAddress(payment.getVerifyResponse().getCustomerAddress());
+        profile.setFirstName(payment.getVerifyResponse().getCustomerName());
+        profile.setLastName("");
+        profile.setPhone(payment.getCustomerPhone());
+        profile.setEmail(payment.getCustomerEmail());
+
+        Subscription subscription = new Subscription();
+        subscription.setSubscriptionDate(new Date());
+        subscription.setTicketNumber(15);
+        subscription.setTicket(ticketService.getTicket(""));
+        subscription.setPayment(payment);
+        subscription.setProfile(profile);
+        return subscriptionDao.save(subscription);
     }
 }

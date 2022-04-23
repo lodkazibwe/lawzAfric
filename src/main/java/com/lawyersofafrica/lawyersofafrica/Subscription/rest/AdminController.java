@@ -1,5 +1,8 @@
 package com.lawyersofafrica.lawyersofafrica.Subscription.rest;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.lawyersofafrica.lawyersofafrica.Subscription.dto.SubRequest;
+import com.lawyersofafrica.lawyersofafrica.Subscription.dto.SubResponse;
 import com.lawyersofafrica.lawyersofafrica.Subscription.model.Subscription;
 import com.lawyersofafrica.lawyersofafrica.Subscription.service.SubscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +33,11 @@ public class AdminController {
     public ResponseEntity<List<Subscription>> getAll(){
         List<Integer> statuses = Arrays.asList(3, 2);
         return new ResponseEntity<>(subscriptionService.getAll(statuses), HttpStatus.OK);
+    }
+
+    @PostMapping("/getToken")
+    public ResponseEntity<Subscription> processToken(@PathVariable int payId){
+        return new ResponseEntity<>(subscriptionService.oldSub(payId), HttpStatus.OK);
     }
 
     /*@PutMapping("/paid")

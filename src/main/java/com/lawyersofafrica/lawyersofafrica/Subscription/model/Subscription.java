@@ -23,10 +23,13 @@ public class Subscription {
     private Date subscriptionDate;
     private int ticketNumber;
     @ManyToOne
+    @JoinColumn
     private Ticket ticket;
     @ManyToOne
+    @JoinColumn
     private Profile profile;
     @ManyToOne
+    @JoinColumn
     private Payment payment;
     private int status;//1=pending, 2=paid, 3=downloaded
 }
