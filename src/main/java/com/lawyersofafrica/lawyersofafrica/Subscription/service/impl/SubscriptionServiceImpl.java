@@ -227,7 +227,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         Subscription subscription = new Subscription();
         subscription.setSubscriptionDate(new Date());
         subscription.setTicketNumber(15);
-        subscription.setTicket(ticketService.getTicket(""));
+        subscription.setTicket(ticketService.getTicket("VIRTUAL"));
         subscription.setPayment(payment);
         subscription.setProfile(profile);
         return subscriptionDao.save(subscription);
