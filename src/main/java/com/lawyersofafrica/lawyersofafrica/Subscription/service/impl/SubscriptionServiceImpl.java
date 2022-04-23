@@ -210,27 +210,8 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     @Transactional
     @Override
     public Subscription oldSub(int payId) {
-        Payment payment =paymentService.getPayment(payId);
-        Profile profile= new Profile();
-        profile.setCity(payment.getVerifyResponse().getCustomerCity());
-        profile.setPosition("");
-        profile.setLanguage("");
-        profile.setGender("MALE");
-        profile.setCountry(payment.getVerifyResponse().getCustomerCountry());
-        profile.setCompany("");
-        profile.setBarAssociation("");
-        profile.setAddress(payment.getVerifyResponse().getCustomerAddress());
-        profile.setFirstName(payment.getVerifyResponse().getCustomerName());
-        profile.setLastName("");
-        profile.setPhone(payment.getCustomerPhone());
-        profile.setEmail(payment.getCustomerEmail());
-
-        Subscription subscription = new Subscription();
-        subscription.setSubscriptionDate(new Date());
-        subscription.setTicketNumber(15);
-        subscription.setTicket(ticketService.getTicket("VIRTUAL"));
-        subscription.setPayment(payment);
-        subscription.setProfile(profileDao.save(profile));
+       Subscription subscription =subscriptionDao.getById(111);
+        subscription.setStatus(2);
         return subscriptionDao.save(subscription);
     }
 }
