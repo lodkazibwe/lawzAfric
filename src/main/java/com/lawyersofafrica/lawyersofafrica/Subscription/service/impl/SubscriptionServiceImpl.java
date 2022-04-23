@@ -163,6 +163,11 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
+    public List<Subscription> getAll() {
+        return subscriptionDao.findAll();
+    }
+
+    @Override
     public List<Subscription> getAll(int status) {
         return subscriptionDao.findByStatus(status);
     }

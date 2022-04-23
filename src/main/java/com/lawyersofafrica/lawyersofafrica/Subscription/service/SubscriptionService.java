@@ -17,6 +17,7 @@ public interface SubscriptionService {
     SubResponse getToken(TicketInfo ticketInfo, List<Profile> profiles) throws JsonProcessingException;
     void updatePayment();
     Subscription getSubscription(int id);
+    List<Subscription> getAll();
     List<Subscription> getAll(int status);
     List<Subscription> getAll(List<Integer> statuses);
     int markAsDownloaded(List<Integer> subIds);

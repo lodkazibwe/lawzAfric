@@ -17,6 +17,10 @@ public class AdminController {
     @Autowired
     SubscriptionService subscriptionService;
 
+    @GetMapping("/getAll")
+    public ResponseEntity<List<Subscription>> getPayments(){
+        return new ResponseEntity<>(subscriptionService.getAll(), HttpStatus.OK);
+    }
     @GetMapping("/all/{status}")
     public ResponseEntity<List<Subscription>> getPayments(@PathVariable int status){
         return new ResponseEntity<>(subscriptionService.getAll(status), HttpStatus.OK);
@@ -24,11 +28,11 @@ public class AdminController {
 
     @GetMapping("/all")
     public ResponseEntity<List<Subscription>> getAll(){
-        List<Integer> statuses = Arrays.asList(1, 2);
+        List<Integer> statuses = Arrays.asList(3, 2);
         return new ResponseEntity<>(subscriptionService.getAll(statuses), HttpStatus.OK);
     }
 
-    @PutMapping("/paid")
+    /*@PutMapping("/paid")
     public ResponseEntity<Integer> markAsPaid(@RequestBody List<Integer> subIds){
         return new ResponseEntity<>(subscriptionService.markAsPaid(subIds), HttpStatus.OK);
 
@@ -37,5 +41,5 @@ public class AdminController {
     public ResponseEntity<Integer> markAsDownloaded(@RequestBody List<Integer> subIds){
         return new ResponseEntity<>(subscriptionService.markAsDownloaded(subIds), HttpStatus.OK);
 
-    }
+    }*/
 }
