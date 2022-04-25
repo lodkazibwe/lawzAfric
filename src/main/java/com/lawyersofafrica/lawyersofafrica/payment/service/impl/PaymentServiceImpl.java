@@ -10,6 +10,7 @@ import com.lawyersofafrica.lawyersofafrica.payment.dto.VerifyResponse;
 import com.lawyersofafrica.lawyersofafrica.payment.model.Payment;
 import com.lawyersofafrica.lawyersofafrica.payment.service.PaymentService;
 import com.lawyersofafrica.lawyersofafrica.payment.service.PdoService;
+import com.lawyersofafrica.lawyersofafrica.ticket.service.TicketService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ public class PaymentServiceImpl implements PaymentService {
     @Autowired PaymentDao paymentDao;
     @Autowired PdoService pdoService;
     @Autowired SubscriptionDao subscriptionDao;
+    @Autowired TicketService ticketService;
     private final Logger logger= LoggerFactory.getLogger(PaymentServiceImpl.class);
 
     @Override
@@ -70,6 +72,8 @@ public class PaymentServiceImpl implements PaymentService {
                 subscription.setStatus(2);
                 logger.info("saving subscription...");
                 subscriptionDao.save(subscription);
+                logger.info("updating  sold tickets");
+                ticketService.updateTicketSold(subscription.getTicket().getId(), 1);
             }logger.info("Message "+ verifyResponse.getResultExplanation());
             logger.info("saving payment...");
             savePayment(payment);

@@ -11,6 +11,6 @@ public interface TicketService {
     Ticket getTicket(String name);
     List<Ticket> getAll();
     Ticket updateTicket(String name);
-
+    void updateTicketSold(int ticketId, int amt);
     void updateTicketNumber(int ticketId, int ticketNo);
 }

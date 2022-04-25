@@ -39,8 +39,8 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public Ticket updateTicket(String name) {
-        Ticket ticket =getTicket("VIRTUAL");
-        ticket.setSold(1);
+        Ticket ticket =getTicket("PALU");
+        ticket.setSold(0);
         return addTicket(ticket);
 
     }
@@ -49,7 +49,13 @@ public class TicketServiceImpl implements TicketService {
     public void updateTicketNumber(int ticketId, int ticketNo) {
         Ticket ticket= getTicket(ticketId);
         ticket.setCurrentTicketNumber(ticketNo);
-        ticket.setSold(ticket.getSold()+1);
+        addTicket(ticket);
+    }
+
+    @Override
+    public void updateTicketSold(int ticketId, int amt) {
+        Ticket ticket= getTicket(ticketId);
+        ticket.setSold(ticket.getSold()+amt);
         addTicket(ticket);
     }
 
