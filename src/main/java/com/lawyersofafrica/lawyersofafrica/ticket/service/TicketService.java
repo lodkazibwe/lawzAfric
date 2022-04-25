@@ -10,7 +10,7 @@ public interface TicketService {
     Ticket getTicket(int ticketId);
     Ticket getTicket(String name);
     List<Ticket> getAll();
-    Ticket updateTicket(Ticket ticket);
+    Ticket updateTicket(String name);
 
     void updateTicketNumber(int ticketId, int ticketNo);
 }

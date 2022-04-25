@@ -38,8 +38,11 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public Ticket updateTicket(Ticket ticket) {
-        return null;
+    public Ticket updateTicket(String name) {
+        Ticket ticket =getTicket("VIRTUAL");
+        ticket.setSold(1);
+        return addTicket(ticket);
+
     }
 
     @Override
