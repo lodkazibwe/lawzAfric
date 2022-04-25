@@ -46,6 +46,12 @@ public class TicketServiceImpl implements TicketService {
     public void updateTicketNumber(int ticketId, int ticketNo) {
         Ticket ticket= getTicket(ticketId);
         ticket.setCurrentTicketNumber(ticketNo);
+        ticket.setSold(ticket.getSold()+1);
         addTicket(ticket);
+    }
+
+    @Override
+    public List<Ticket> getAll() {
+        return ticketDao.findAll();
     }
 }

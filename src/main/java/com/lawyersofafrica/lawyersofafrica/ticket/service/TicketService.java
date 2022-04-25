@@ -9,6 +9,7 @@ public interface TicketService {
     List<Ticket> addTicket(List<Ticket> tickets);
     Ticket getTicket(int ticketId);
     Ticket getTicket(String name);
+    List<Ticket> getAll();
     Ticket updateTicket(Ticket ticket);
 
     void updateTicketNumber(int ticketId, int ticketNo);
