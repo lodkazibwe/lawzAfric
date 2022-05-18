@@ -18,4 +18,9 @@ public class EventServiceImpl implements EventService {
     public boolean existsByKey(String eventKey) {
         return eventDao.existsByEventKey(eventKey);
     }
+
+    @Override
+    public Event getEvent(String eventKey) {
+        return null;
+    }
 }

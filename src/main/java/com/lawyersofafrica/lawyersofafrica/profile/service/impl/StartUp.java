@@ -29,10 +29,11 @@ public class StartUp implements ApplicationListener<ApplicationReadyEvent> {
         logger.info("system Started...");
         logger.info("checking event...");
         boolean bool =eventService.existsByKey("PALUA");
-        if(bool){
+        if(!bool){
+
             logger.info("system already initiated...");
         }else{
-            SysUser sysUser =new SysUser();
+            /*SysUser sysUser =new SysUser();
             sysUser.setDateAdded(new Date());
             sysUser.setEmail("secretariat@lawyersofafrica.org");
             sysUser.setUserName("Admin");
@@ -41,9 +42,9 @@ public class StartUp implements ApplicationListener<ApplicationReadyEvent> {
             sysUser.setContact("255685078794");
             sysUser.setDateUpdated(new Date());
             sysUser.setUpdatedBy("sys");
-            userService.addAdmin(sysUser);
+            userService.addAdmin(sysUser);*/
 
-            logger.info("adding event...");
+            /*logger.info("adding event...");
             Event event =new Event();
             event.setStartDate(new Date());
             event.setDescription("2022 Annual Conference And Triennial General Assembly");
@@ -52,17 +53,19 @@ public class StartUp implements ApplicationListener<ApplicationReadyEvent> {
             event.setTitle("PALU");
             event.setEventKey("PALUA");
             event.setTheme("The Africa We Want from Aspirations to Reality");
-            Event newEvent =eventService.addEvent(event);
+            Event newEvent =eventService.addEvent(event);*/
+            Event newEvent =eventService.getEvent("PALUA");
             logger.info("adding tickets...");
             List<Ticket> ticketList =new ArrayList<>();
-            ticketList.add(new Ticket(11, "PALU", "Member in Good Standing", "N", 2000,0, 10, "V", 300, newEvent));
+            /*ticketList.add(new Ticket(11, "PALU", "Member in Good Standing", "N", 2000,0, 10, "V", 300, newEvent));
             ticketList.add(new Ticket(12, "MEMBER", "of the Host Bar Tanganyika Law Society", "N", 2000,0, 1000, "V", 250, newEvent));
             ticketList.add(new Ticket(13, "EXISTING", "Special Endowment Members And Life Member", "N", 2000,0, 2000, "V", 200, newEvent));
             ticketList.add(new Ticket(14, "SPECIAL", "Endowment Member", "N", 2000,0, 3000, "V", 10000, newEvent));
             ticketList.add(new Ticket(15, "LIFETIME", "Membership and Admission to AGM & TGA", "N", 2000,0, 4000, "V", 1000, newEvent));
             ticketList.add(new Ticket(16, "NON-MEMBER", "of PALU", "N", 2000,0, 5000, "V", 450, newEvent));
-            ticketList.add(new Ticket(17, "VIRTUAL", "Participating", "N", 2000,0, 6000, "V", 100, newEvent));
-           ticketService.addTicket(ticketList);
+            ticketList.add(new Ticket(17, "VIRTUAL", "Participating", "N", 2000,0, 6000, "V", 100, newEvent));*/
+            ticketList.add(new Ticket(17, "YOUNG LAWYERS", "0-5 years of practice", "N", 2000,0, 7000, "V", 150, newEvent));
+            ticketService.addTicket(ticketList);
             logger.info("tickets added...");
         }
         logger.info("system ready...");
