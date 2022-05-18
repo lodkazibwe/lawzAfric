@@ -26,4 +26,9 @@ public class TicketController {
         return new ResponseEntity<>(ticketService.updateTicket("VIRTUAL"), HttpStatus.OK);
     }
 
+    @PutMapping("/delete")
+    public ResponseEntity<Ticket> delete(){
+        return new ResponseEntity<>(ticketService.deleteTicket(282), HttpStatus.OK);
+    }
+
 }

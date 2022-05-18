@@ -29,7 +29,7 @@ public class StartUp implements ApplicationListener<ApplicationReadyEvent> {
         logger.info("system Started...");
         logger.info("checking event...");
         boolean bool =eventService.existsByKey("PALUA");
-        if(!bool){
+        if(bool){
 
             logger.info("system already initiated...");
         }else{
@@ -54,6 +54,7 @@ public class StartUp implements ApplicationListener<ApplicationReadyEvent> {
             event.setEventKey("PALUA");
             event.setTheme("The Africa We Want from Aspirations to Reality");
             Event newEvent =eventService.addEvent(event);*/
+
             Event newEvent =eventService.getEvent("PALUA");
             logger.info("adding tickets...");
             List<Ticket> ticketList =new ArrayList<>();

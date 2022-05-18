@@ -9,8 +9,10 @@ public interface TicketService {
     List<Ticket> addTicket(List<Ticket> tickets);
     Ticket getTicket(int ticketId);
     Ticket getTicket(String name);
+    Ticket deleteTicket(int id);
     List<Ticket> getAll();
     Ticket updateTicket(String name);
     void updateTicketSold(int ticketId, int amt);
     void updateTicketNumber(int ticketId, int ticketNo);
+
 }

@@ -60,7 +60,15 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
+    public Ticket deleteTicket(int id) {
+        Ticket ticket =getTicket(id);
+        ticketDao.delete(ticket);
+        return ticket;
+    }
+
+    @Override
     public List<Ticket> getAll() {
         return ticketDao.findAll();
     }
+
 }
