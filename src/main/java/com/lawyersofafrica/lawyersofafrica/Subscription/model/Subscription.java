@@ -3,6 +3,7 @@ package com.lawyersofafrica.lawyersofafrica.Subscription.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.lawyersofafrica.lawyersofafrica.payment.model.Payment;
 import com.lawyersofafrica.lawyersofafrica.profile.model.Profile;
+import com.lawyersofafrica.lawyersofafrica.ticket.model.SubEvent;
 import com.lawyersofafrica.lawyersofafrica.ticket.model.Ticket;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,4 +33,6 @@ public class Subscription {
     @JoinColumn
     private Payment payment;
     private int status;//1=pending, 2=paid, 3=downloaded
+    @Enumerated(EnumType.STRING)
+    private SubEvent subEvent;
 }

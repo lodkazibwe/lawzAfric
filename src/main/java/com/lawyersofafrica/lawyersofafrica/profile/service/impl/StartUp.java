@@ -2,7 +2,6 @@ package com.lawyersofafrica.lawyersofafrica.profile.service.impl;
 
 import com.lawyersofafrica.lawyersofafrica.event.model.Event;
 import com.lawyersofafrica.lawyersofafrica.event.service.EventService;
-import com.lawyersofafrica.lawyersofafrica.sysUser.model.SysUser;
 import com.lawyersofafrica.lawyersofafrica.sysUser.service.UserService;
 import com.lawyersofafrica.lawyersofafrica.ticket.model.Ticket;
 import com.lawyersofafrica.lawyersofafrica.ticket.service.TicketService;
@@ -28,7 +27,7 @@ public class StartUp implements ApplicationListener<ApplicationReadyEvent> {
     public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
         logger.info("system Started...");
         logger.info("checking event...");
-        boolean bool =eventService.existsByKey("PALUA");
+        boolean bool =eventService.existsByKey("PALUACC");
         if(bool){
 
             logger.info("system already initiated...");
@@ -44,28 +43,29 @@ public class StartUp implements ApplicationListener<ApplicationReadyEvent> {
             sysUser.setUpdatedBy("sys");
             userService.addAdmin(sysUser);*/
 
-            /*logger.info("adding event...");
+            logger.info("adding event...");
             Event event =new Event();
             event.setStartDate(new Date());
-            event.setDescription("2022 Annual Conference And Triennial General Assembly");
+            event.setDescription("Pan African Lawyers Union (PALU)\n" +
+                    "20th Anniversary conference and celebration\n" +
+                    "Addis Ababa, Ethiopia\n" +
+                    "September 9th, 2022");
             event.setEndDate(new Date());
             event.setEventStatus("VERIFIED");
             event.setTitle("PALU");
-            event.setEventKey("PALUA");
+            event.setEventKey("PALUACC");
             event.setTheme("The Africa We Want from Aspirations to Reality");
-            Event newEvent =eventService.addEvent(event);*/
+            Event newEvent =eventService.addEvent(event);
 
-            Event newEvent =eventService.getEvent("PALUA");
+            //Event newEvent =eventService.getEvent("PALUACC");
             logger.info("adding tickets...");
             List<Ticket> ticketList =new ArrayList<>();
-            /*ticketList.add(new Ticket(11, "PALU", " Member in Good Standing", "N", 2000,0, 10, "V", 300, newEvent));
-            ticketList.add(new Ticket(12, "MEMBER", "of the Host Bar Tanganyika Law Society", "N", 2000,0, 1000, "V", 250, newEvent));
-            ticketList.add(new Ticket(13, "EXISTING", "Special Endowment Members And Life Member", "N", 2000,0, 2000, "V", 200, newEvent));
-            ticketList.add(new Ticket(14, "SPECIAL", "Endowment Member", "N", 2000,0, 3000, "V", 10000, newEvent));
-            ticketList.add(new Ticket(15, "LIFETIME", "Membership and Admission to AGM & TGA", "N", 2000,0, 4000, "V", 1000, newEvent));
-            ticketList.add(new Ticket(16, "NON-MEMBER", "of PALU", "N", 2000,0, 5000, "V", 450, newEvent));
-            ticketList.add(new Ticket(17, "VIRTUAL", "Participating", "N", 2000,0, 6000, "V", 100, newEvent));*/
-            ticketList.add(new Ticket(77777, "YOUNG LAWYERS", "0-5 years of practice", "N", 2000,0, 7000, "V", 150, newEvent));
+            ticketList.add(new Ticket(111, "PALU", "member in good standing", "N", 2000,0, 10, "V", 100,50,0, newEvent));
+            ticketList.add(new Ticket(121, "FOUNDING", "Member", "N", 2000,0, 1000, "V", 0,0,0, newEvent));
+            ticketList.add(new Ticket(131, "CURRENT", "Special Endowment Member Or Life Member", "N", 2000,0, 2000, "V", 0,0,0, newEvent));
+            ticketList.add(new Ticket(141, "NEW SPECIAL", "PALU Endowment Member", "N", 2000,0, 3000, "V", 0,0,0, newEvent));
+            ticketList.add(new Ticket(151, "NEW LIFETIME", "PALU Member", "N", 2000,0, 4000, "V", 0,0,0, newEvent));
+            ticketList.add(new Ticket(161, "NON-MEMBER", "of PALU", "N", 2000,0, 5000, "V", 100,50,50, newEvent));
             ticketService.addTicket(ticketList);
             logger.info("tickets added...");
         }

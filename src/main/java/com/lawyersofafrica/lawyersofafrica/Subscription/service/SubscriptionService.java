@@ -7,6 +7,7 @@ import com.lawyersofafrica.lawyersofafrica.Subscription.dto.TicketInfo;
 import com.lawyersofafrica.lawyersofafrica.Subscription.model.Subscription;
 import com.lawyersofafrica.lawyersofafrica.payment.model.Payment;
 import com.lawyersofafrica.lawyersofafrica.profile.model.Profile;
+import com.lawyersofafrica.lawyersofafrica.ticket.model.SubEvent;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ public interface SubscriptionService {
     Subscription addSubscription(Subscription subscription);
     List<Subscription> addSubscription(List<Subscription> subscription);
     SubResponse creatPaymentToken(TicketInfo ticketInfo) throws JsonProcessingException;
-    List<Subscription> subscribe(List<Profile> profiles, int ticketId, Payment payment) throws JsonProcessingException;
+    List<Subscription> subscribe(List<Profile> profiles, int ticketId, Payment payment, SubEvent subEvent) throws JsonProcessingException;
     SubResponse getToken(TicketInfo ticketInfo, List<Profile> profiles) throws JsonProcessingException;
     void updatePayment();
     Subscription getSubscription(int id);

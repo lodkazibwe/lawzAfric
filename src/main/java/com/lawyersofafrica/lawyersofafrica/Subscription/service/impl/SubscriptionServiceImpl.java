@@ -16,6 +16,7 @@ import com.lawyersofafrica.lawyersofafrica.payment.service.PaymentService;
 import com.lawyersofafrica.lawyersofafrica.payment.service.PdoService;
 import com.lawyersofafrica.lawyersofafrica.profile.dao.ProfileDao;
 import com.lawyersofafrica.lawyersofafrica.profile.model.Profile;
+import com.lawyersofafrica.lawyersofafrica.ticket.model.SubEvent;
 import com.lawyersofafrica.lawyersofafrica.ticket.model.Ticket;
 import com.lawyersofafrica.lawyersofafrica.ticket.service.TicketService;
 import org.slf4j.Logger;
@@ -53,7 +54,13 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     public SubResponse creatPaymentToken(TicketInfo ticketInfo) throws JsonProcessingException {
         logger.info("get total amount and ticket");
         Ticket ticket = ticketService.getTicket(ticketInfo.getTicketName());
-        double amount = ticketInfo.getQuantity() * ticket.getPrice();
+        double price =ticket.getPrice2();
+        if(ticketInfo.getSubEvent().equals(SubEvent.CONFGALA)){
+            price =ticket.getPrice();
+        }else if(ticketInfo.getSubEvent().equals(SubEvent.GALA)){
+            price =ticket.getPrice1();
+        }
+        double amount=  ticketInfo.getQuantity() * price;
         RequestDto requestDto = new RequestDto();
         List<ServiceDto> serviceDtos =new ArrayList<>();
         logger.info("generating and setting service");
@@ -107,7 +114,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
     @Transactional
     @Override
-    public List<Subscription> subscribe(List<Profile> profiles, int ticketId, Payment payment) {
+    public List<Subscription> subscribe(List<Profile> profiles, int ticketId, Payment payment, SubEvent subEvent) {
         Ticket ticket =ticketService.getTicket(ticketId);
         int ticketNo =ticket.getCurrentTicketNumber();
         List<Subscription> subscriptions =new ArrayList<>();
@@ -120,6 +127,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
             subscription.setStatus(1);
             subscription.setSubscriptionDate(new Date());
             subscription.setTicket(ticket);
+            subscription.setSubEvent(subEvent);
             subscription.setTicketNumber(ticketNo);
             ticketNo+=1;
             subscriptions.add(subscription);
@@ -162,7 +170,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         logger.info("generate Token");
         SubResponse subResponse =creatPaymentToken(ticketInfo);
         logger.info("save subscriptions");
-        subscribe(profiles, subResponse.getTicketId(), subResponse.getPayment());
+        subscribe(profiles, subResponse.getTicketId(), subResponse.getPayment(), ticketInfo.getSubEvent());
         return subResponse;
     }
 

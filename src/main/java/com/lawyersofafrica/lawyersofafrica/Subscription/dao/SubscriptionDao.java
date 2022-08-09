@@ -11,7 +11,7 @@ import java.util.List;
 public interface SubscriptionDao extends JpaRepository<Subscription, Integer> {
 
     @Query("SELECT new com.lawyersofafrica.lawyersofafrica.Subscription.model.Subscription(" +
-            "s.id,s.subscriptionDate,s.ticketNumber,s.ticket,s.profile,s.payment,s.status) " +
+            "s.id,s.subscriptionDate,s.ticketNumber,s.ticket,s.profile,s.payment,s.status, s.subEvent) " +
             "FROM Subscription s JOIN s.payment p WHERE p.id=?1")
     List<Subscription> findByPaymentId(int id);
 
