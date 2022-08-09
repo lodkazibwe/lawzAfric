@@ -224,7 +224,6 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         for(Profile profileDto: profiles){
             Profile profile =generateProfile(profileDto);
             Subscription subscription =new Subscription();
-            //subscription.setPayment(payment);
             subscription.setProfile(profile);
             subscription.setStatus(2);
             subscription.setSubscriptionDate(new Date());
@@ -237,6 +236,8 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         }
         logger.info("updating  current ticket number");
         ticketService.updateTicketNumber(ticket.getId(), ticketNo);
+        logger.info("updating  sold tickets");
+        ticketService.updateTicketSold(ticket.getId(), 1);
         logger.info("saving subscriptions");
         return addSubscription(subscriptions);
     }
