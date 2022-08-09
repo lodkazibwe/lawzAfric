@@ -1,7 +1,6 @@
 package com.lawyersofafrica.lawyersofafrica.Subscription.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.lawyersofafrica.lawyersofafrica.Subscription.dto.SubRequest;
 import com.lawyersofafrica.lawyersofafrica.Subscription.dto.SubResponse;
 import com.lawyersofafrica.lawyersofafrica.Subscription.dto.TicketInfo;
 import com.lawyersofafrica.lawyersofafrica.Subscription.model.Subscription;
@@ -24,5 +23,5 @@ public interface SubscriptionService {
     List<Subscription> getAll(List<Integer> statuses);
     int markAsDownloaded(List<Integer> subIds);
     int markAsPaid(List<Integer> subIds);
-
+    List<Subscription> saveSubscription(TicketInfo ticketInfo, List<Profile> profiles);
 }

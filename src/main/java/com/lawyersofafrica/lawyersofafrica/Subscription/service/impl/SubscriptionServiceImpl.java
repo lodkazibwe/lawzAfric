@@ -215,4 +215,29 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         subscriptionDao.save(subscription);
     }
 
+    @Override
+    public List<Subscription> saveSubscription(TicketInfo ticketInfo, List<Profile> profiles) {
+        Ticket ticket = ticketService.getTicket(ticketInfo.getTicketName());
+        int ticketNo =ticket.getCurrentTicketNumber();
+        List<Subscription> subscriptions =new ArrayList<>();
+        logger.info("saving subscriptions");
+        for(Profile profileDto: profiles){
+            Profile profile =generateProfile(profileDto);
+            Subscription subscription =new Subscription();
+            //subscription.setPayment(payment);
+            subscription.setProfile(profile);
+            subscription.setStatus(2);
+            subscription.setSubscriptionDate(new Date());
+            subscription.setTicket(ticket);
+            subscription.setSubEvent(ticketInfo.getSubEvent());
+            subscription.setTicketNumber(ticketNo);
+            ticketNo+=1;
+            subscriptions.add(subscription);
+
+        }
+        logger.info("updating  current ticket number");
+        ticketService.updateTicketNumber(ticket.getId(), ticketNo);
+        logger.info("saving subscriptions");
+        return addSubscription(subscriptions);
+    }
 }
