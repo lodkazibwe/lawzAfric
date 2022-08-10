@@ -11,6 +11,8 @@ import com.lawyersofafrica.lawyersofafrica.ticket.model.SubEvent;
 import java.util.List;
 
 public interface SubscriptionService {
+
+    String emailTest(String emailTo);
     Subscription addSubscription(Subscription subscription);
     List<Subscription> addSubscription(List<Subscription> subscription);
     SubResponse creatPaymentToken(TicketInfo ticketInfo) throws JsonProcessingException;

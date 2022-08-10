@@ -7,6 +7,7 @@ import com.lawyersofafrica.lawyersofafrica.Subscription.dto.TicketInfo;
 import com.lawyersofafrica.lawyersofafrica.Subscription.model.Subscription;
 import com.lawyersofafrica.lawyersofafrica.Subscription.service.SubscriptionService;
 import com.lawyersofafrica.lawyersofafrica.exceptions.ResourceNotFoundException;
+import com.lawyersofafrica.lawyersofafrica.notification.service.NotificationService;
 import com.lawyersofafrica.lawyersofafrica.payment.dto.RequestDto;
 import com.lawyersofafrica.lawyersofafrica.payment.dto.ResponseDto;
 import com.lawyersofafrica.lawyersofafrica.payment.dto.ServiceDto;
@@ -37,6 +38,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     @Autowired SubscriptionDao subscriptionDao;
     @Autowired PaymentService paymentService;
     @Autowired ProfileDao profileDao;
+    @Autowired NotificationService notificationService;
     private final Logger logger= LoggerFactory.getLogger(SubscriptionServiceImpl.class);
 
     @Override
@@ -45,8 +47,33 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
-    public List<Subscription> addSubscription(List<Subscription> subscription) {
-        return subscriptionDao.saveAll(subscription);
+    @Transactional
+    public List<Subscription> addSubscription(List<Subscription> subscriptions) {
+        for(Subscription subn:subscriptions){
+            String tkt ="VIRTUAL PARTICIPATION ONLY";
+            if(subn.getSubEvent().equals(SubEvent.GALA)){
+                tkt ="GALA DINNER ONLY";
+            }else if(subn.getSubEvent().equals(SubEvent.CONFGALA)){
+                tkt ="CONFERENCE & GALA DINNER";
+            }
+            notificationService.sendSimpleMessage(subn.getProfile().getEmail(),
+                    "20th Anniversary Celebrations", "YOU HAVE SUCCESSFULLY SUBSCRIBBED TO THE 20TH ANNIVERSARY\n" +
+                            "CONFERENCE AND CELEBRATION\n" +
+                            "NAME+ "+subn.getProfile().getFirstName()+" "+subn.getProfile().getLastName()+"\n"+
+                            "TYPE: "+subn.getTicket().getName()+" "+ subn.getTicket().getDetail()+"\n"+"TICKET: "+tkt+"\n"+"TICKET NUMBER: "+subn.getTicketNumber());
+
+            notificationService.sendSimpleMessage("secretariat@lawyersofafrica.org","NEW REGISTRATION FOR 20th Anniversary Celebrations",
+                    "HELLO PALU "+subn.getProfile().getFirstName()+" "+subn.getProfile().getLastName()+" has Registered for the Event");
+        }
+        return subscriptionDao.saveAll(subscriptions);
+    }
+
+    @Override
+    @Transactional
+    public String emailTest(String emailTo) {
+        notificationService.sendSimpleMessage(emailTo,"NEW REGISTRATION FOR 20th Anniversary Celebrations",
+                "HELLO PALU, kazibwe\n"+"Rogers has Registered\n"+"for the Event");
+        return "success";
     }
 
     @Transactional

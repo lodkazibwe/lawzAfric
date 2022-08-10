@@ -62,7 +62,7 @@ public class StartUp implements ApplicationListener<ApplicationReadyEvent> {
             List<Ticket> ticketList =new ArrayList<>();
             ticketList.add(new Ticket(111, "PALU", "member in good standing", "N", 2000,0, 10, "V", 100,50,0, newEvent));
             ticketList.add(new Ticket(121, "FOUNDING", "Member", "N", 2000,0, 1000, "V", 0,0,0, newEvent));
-            ticketList.add(new Ticket(131, " ", "Special Endowment Member Or Life Member", "N", 2000,0, 2000, "V", 0,0,0, newEvent));
+            ticketList.add(new Ticket(131, "CURRENT", "Special Endowment Member Or Life Member", "N", 2000,0, 2000, "V", 0,0,0, newEvent));
             ticketList.add(new Ticket(141, "NEW SPECIAL", "PALU Endowment Member", "N", 2000,0, 3000, "V", 0,0,0, newEvent));
             ticketList.add(new Ticket(151, "NEW LIFETIME", "PALU Member", "N", 2000,0, 4000, "V", 0,0,0, newEvent));
             ticketList.add(new Ticket(161, "NON-MEMBER", "of PALU", "N", 2000,0, 5000, "V", 100,50,50, newEvent));
