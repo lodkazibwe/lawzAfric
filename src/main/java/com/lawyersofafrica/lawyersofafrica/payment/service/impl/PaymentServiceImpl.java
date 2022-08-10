@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.lawyersofafrica.lawyersofafrica.Subscription.dao.SubscriptionDao;
 import com.lawyersofafrica.lawyersofafrica.Subscription.model.Subscription;
 import com.lawyersofafrica.lawyersofafrica.exceptions.ResourceNotFoundException;
+import com.lawyersofafrica.lawyersofafrica.notification.service.NotificationService;
 import com.lawyersofafrica.lawyersofafrica.payment.dao.PaymentDao;
 import com.lawyersofafrica.lawyersofafrica.payment.dto.VerifyRequest;
 import com.lawyersofafrica.lawyersofafrica.payment.dto.VerifyResponse;
@@ -26,6 +27,7 @@ public class PaymentServiceImpl implements PaymentService {
     @Autowired PdoService pdoService;
     @Autowired SubscriptionDao subscriptionDao;
     @Autowired TicketService ticketService;
+    @Autowired NotificationService notificationService;
     private final Logger logger= LoggerFactory.getLogger(PaymentServiceImpl.class);
 
     @Override
@@ -55,7 +57,6 @@ public class PaymentServiceImpl implements PaymentService {
             VerifyResponse verifyResponse =pdoService.verifyToken(verifyRequest);
             updatePayment(verifyResponse, payment.getId());
         }
-
     }
 
     @Transactional
@@ -77,6 +78,14 @@ public class PaymentServiceImpl implements PaymentService {
             }logger.info("Message "+ verifyResponse.getResultExplanation());
             logger.info("saving payment...");
             savePayment(payment);
+            notificationService.sendSimpleMessage(payment.getCustomerEmail(),
+                    "20th Anniversary Celebrations", "YOU HAVE SUCCESSFULLY SUBSCRIBBED TO THE 20TH ANNIVERSARY\n" +
+                            "CONFERENCE AND CELEBRATION\n" +
+                            "NAME+ "+verifyResponse.getCustomerName()+"\n"+
+                            "DATE: September 9th, 2022");
+
+            notificationService.sendSimpleMessage("secretariat@lawyersofafrica.org","NEW REGISTRATION FOR 20th Anniversary Celebrations",
+                    "HELLO PALU "+verifyResponse.getCustomerName()+" has Registered for the Event");
 
         }else if(result==2 || result==7){
             logger.info("partial payment...");

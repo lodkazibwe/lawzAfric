@@ -49,22 +49,6 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     @Override
     @Transactional
     public List<Subscription> addSubscription(List<Subscription> subscriptions) {
-        for(Subscription subn:subscriptions){
-            String tkt ="VIRTUAL PARTICIPATION ONLY";
-            if(subn.getSubEvent().equals(SubEvent.GALA)){
-                tkt ="GALA DINNER ONLY";
-            }else if(subn.getSubEvent().equals(SubEvent.CONFGALA)){
-                tkt ="CONFERENCE & GALA DINNER";
-            }
-            notificationService.sendSimpleMessage(subn.getProfile().getEmail(),
-                    "20th Anniversary Celebrations", "YOU HAVE SUCCESSFULLY SUBSCRIBBED TO THE 20TH ANNIVERSARY\n" +
-                            "CONFERENCE AND CELEBRATION\n" +
-                            "NAME+ "+subn.getProfile().getFirstName()+" "+subn.getProfile().getLastName()+"\n"+
-                            "TYPE: "+subn.getTicket().getName()+" "+ subn.getTicket().getDetail()+"\n"+"TICKET: "+tkt+"\n"+"TICKET NUMBER: "+subn.getTicketNumber());
-
-            notificationService.sendSimpleMessage("secretariat@lawyersofafrica.org","NEW REGISTRATION FOR 20th Anniversary Celebrations",
-                    "HELLO PALU "+subn.getProfile().getFirstName()+" "+subn.getProfile().getLastName()+" has Registered for the Event");
-        }
         return subscriptionDao.saveAll(subscriptions);
     }
 
@@ -266,6 +250,26 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         logger.info("updating  sold tickets");
         ticketService.updateTicketSold(ticket.getId(), 1);
         logger.info("saving subscriptions");
+        genAndSendEmail(subscriptions);
         return addSubscription(subscriptions);
+    }
+
+    public void genAndSendEmail(List<Subscription> subscriptions){
+        for(Subscription subn:subscriptions){
+            String tkt ="VIRTUAL PARTICIPATION ONLY";
+            if(subn.getSubEvent().equals(SubEvent.GALA)){
+                tkt ="GALA DINNER ONLY";
+            }else if(subn.getSubEvent().equals(SubEvent.CONFGALA)){
+                tkt ="CONFERENCE & GALA DINNER";
+            }
+            notificationService.sendSimpleMessage(subn.getProfile().getEmail(),
+                    "20th Anniversary Celebrations", "YOU HAVE SUCCESSFULLY SUBSCRIBBED TO THE 20TH ANNIVERSARY\n" +
+                            "CONFERENCE AND CELEBRATION\n" +
+                            "NAME+ "+subn.getProfile().getFirstName()+" "+subn.getProfile().getLastName()+"\n"+
+                            "TYPE: "+subn.getTicket().getName()+" "+ subn.getTicket().getDetail()+"\n"+"TICKET: "+tkt+"\n"+"TICKET NUMBER: "+subn.getTicketNumber());
+
+            notificationService.sendSimpleMessage("secretariat@lawyersofafrica.org","NEW REGISTRATION FOR 20th Anniversary Celebrations",
+                    "HELLO PALU "+subn.getProfile().getFirstName()+" "+subn.getProfile().getLastName()+" has Registered for the Event");
+        }
     }
 }
