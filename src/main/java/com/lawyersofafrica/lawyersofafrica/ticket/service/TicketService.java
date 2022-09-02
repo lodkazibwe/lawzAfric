@@ -14,5 +14,6 @@ public interface TicketService {
     Ticket updateTicket(String name);
     void updateTicketSold(int ticketId, int amt);
     void updateTicketNumber(int ticketId, int ticketNo);
+    void updatePrices(String ticketName, double price, double price1, double price2);
 
 }

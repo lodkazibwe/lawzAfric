@@ -29,7 +29,8 @@ public class StartUp implements ApplicationListener<ApplicationReadyEvent> {
         logger.info("checking event...");
         boolean bool =eventService.existsByKey("PALUACC");
         if(bool){
-
+            ticketService.updatePrices("NEW SPECIAL", 10000, 10000, 10000);
+            ticketService.updatePrices("NEW LIFETIME", 1000, 1000, 1000);
             logger.info("system already initiated...");
         }else{
             /*SysUser sysUser =new SysUser();

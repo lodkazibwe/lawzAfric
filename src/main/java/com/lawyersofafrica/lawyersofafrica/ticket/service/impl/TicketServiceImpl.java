@@ -71,4 +71,12 @@ public class TicketServiceImpl implements TicketService {
         return ticketDao.findAll();
     }
 
+    @Override
+    public void updatePrices(String ticketName, double price, double price1, double price2) {
+        Ticket ticket= ticketDao.findByName(ticketName);
+        ticket.setPrice(price);
+        ticket.setPrice1(price1);
+        ticket.setPrice2(price2);
+        ticketDao.save(ticket);
+    }
 }
